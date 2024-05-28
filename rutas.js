@@ -129,6 +129,20 @@ app.get('/consultarTareasByIdProyecto/:id', async (req, res) => {
     res.send(tareas)
 })
 
+// **************** Publicaciones ****************
+
+app.get('/consultarPublicaciones', async (req, res) => {
+    const publicaciones = await consultarPublicaciones()
+    res.send(publicaciones)
+})
+
+// **************** Comentarios ****************
+
+app.get('/consultarComentariosByIdPublicacion', async (req, res) => {
+    const idPublicacion = req.params.idPublicacion
+    const comentarios = await consultarComentariosByIdPublicacion(idPublicacion)
+    res.send(comentarios)
+})
 
 // ---------------------------------- Inserción ----------------------------------
 
@@ -185,6 +199,22 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Error en el servidor');
     }
 });
+
+// **************** Publicaciones ****************
+
+app.post('/insertarPublicacion', async (req, res) => {
+    const bodyJson = req.body
+    const result = await insertarPublicacion(bodyJson['idProyecto'], bodyJson['fechaPublicacion'], bodyJson['contenido'])
+    res.send(result)
+})
+
+// **************** Comentarios ****************
+
+app.post('/insertarComentario', async (req, res) => {
+    const bodyJson = req.body
+    const result = await insertarComentario(bodyJson['idPublicacion'], bodyJson['idColaborador'], bodyJson['fechaComentario'], bodyJson['contenido'])
+    res.send(result)
+})
 
 
 // ---------------------------------- Actualizaciones ----------------------------------

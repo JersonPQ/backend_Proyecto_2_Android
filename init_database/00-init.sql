@@ -87,7 +87,7 @@ CREATE TABLE publicaciones (
     id int not null auto_increment,
     idProyecto int not null,
     idColaborador int not null,
-    fecha date not null,
+    fechaPublicacion date not null,
     contenido varchar(500) not null,
 
     PRIMARY KEY (id),
@@ -99,7 +99,7 @@ CREATE TABLE comentarios (
     id int not null auto_increment,
     idPublicacion int not null,
     idColaborador int not null,
-    fecha date not null,
+    fechaComentario date not null,
     contenido varchar(500) not null,
 
     PRIMARY KEY (id),

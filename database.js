@@ -126,7 +126,8 @@ export async function obtenerIdEstadosColaboradoresByNombre(nombreEstado) {
 // **************** Tareas ****************
 export async function consultarTareas() {
     const query = "SELECT T.id, T.nombreTarea, T.idProyecto, P.nombreProyecto, T.idEstadoTarea, E.nombreEstado, \
-                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints \
+                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints, T.recursosEconomicos \
+                    T.tiempoEstimado, T.descripcion \
                     FROM tareas T inner join proyectos P on T.idProyecto = P.id \
                     inner join colaboradores C on T.idColaborador = C.id \
                     inner join estadosTareas E on T.idEstadoTarea = E.id;"
@@ -136,7 +137,8 @@ export async function consultarTareas() {
 
 export async function consultarTareaById(id) {
     const query = "SELECT T.id, T.nombreTarea, T.idProyecto, P.nombreProyecto, T.idEstadoTarea, E.nombreEstado, \
-                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints \
+                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints, T.recursosEconomicos \
+                    T.tiempoEstimado, T.descripcion \
                     FROM tareas T inner join proyectos P on T.idProyecto = P.id \
                     inner join colaboradores C on T.idColaborador = C.id \
                     inner join estadosTareas E on T.idEstadoTarea = E.id \
@@ -147,7 +149,8 @@ export async function consultarTareaById(id) {
 
 export async function consultarTareasByIdProyecto(idProyecto) {
     const query = "SELECT T.id, T.nombreTarea, T.idProyecto, P.nombreProyecto, T.idEstadoTarea, E.nombreEstado, \
-                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints \
+                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints, T.recursosEconomicos \
+                    T.tiempoEstimado, T.descripcion \
                     FROM tareas T inner join proyectos P on T.idProyecto = P.id \
                     inner join colaboradores C on T.idColaborador = C.id \
                     inner join estadosTareas E on T.idEstadoTarea = E.id \
@@ -156,6 +159,32 @@ export async function consultarTareasByIdProyecto(idProyecto) {
     return rows
 }
 
+// **************** Publicaciones ****************
+
+export async function consultarPublicaciones() {
+    const query = "SELECT PU.id, PU.idProyecto, PR.nombreProyecto, PU.idColaborador, \
+                    CO.nombre, CO.primerApellido, CO.segundoApellido, PU.fechaPublicacion, PU.contenido \
+                    FROM publicaciones PU \
+                    inner join proyectos PR on PU.idProyecto = PR.id \
+                    inner join colaboradores CO on PU.idColaborador = CO.id"
+    const [rows] = await pool.query(query)
+    return rows
+}
+
+// **************** Comentarios ****************
+
+export async function consultarComentariosByIdPublicacion(id) {
+    const query = "SELECT COM.id, COM.idPublicacion, PU.idColaborador, \
+                    COM.idColaborador, \
+                    COL.nombre, COL.primerApellido, COL.segundoApellido, \
+                    COM.fechaComentario, COM.contenido \
+                    FROM comentarios COM \
+                    inner join publicaciones PU on COM.idPublicacion = PU.id \
+                    inner join colaboradores COL on COM.idColaborador = COL.id \
+                    WHERE COM.idPublicacion = ?"
+    const [rows] = await pool.query(query, [id])
+    return rows
+}
 
 // ---------------------------------- Inserciones ----------------------------------
 
@@ -198,6 +227,24 @@ export async function insertarTarea(nombreTarea, idProyecto, idEstadoTarea, idCo
                     VALUES (?, ?, ?, ?, ?)"
     const [rows] = await pool.query(query, [nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints])
     return consultarTareaById(rows.insertId)
+}
+
+// **************** Publicaciones ****************
+
+export async function insertarPublicacion(idProyecto, idColaborador, fechaPublicacion, contenido) {
+    const query = "INSERT INTO publicaciones (idProyecto, idColaborador, fechaPublicacion, contenido) \
+                    VALUES (?, ?, ?, ?)"
+    const [rows] = await pool.query(query, [idProyecto, idColaborador, fechaPublicacion, contenido])
+    return rows.affectedRows > 0
+}
+
+// **************** Comentarios ****************
+
+export async function insertarComentario(idPublicacion, idColaborador, fechaComentario, contenido) {
+    const query = "INSERT INTO comentarios (idPublicacion, idColaborador, fechaComentario, contenido) \
+                    VALUES (?, ?, ?, ?)"
+    const [rows] = await pool.query(query, [idPublicacion, idColaborador, fechaComentario, contenido])
+    return rows.affectedRows > 0
 }
 
 // ---------------------------------- Inicio de Sesión ----------------------------------
