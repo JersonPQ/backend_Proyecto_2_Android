@@ -200,7 +200,7 @@ app.post('/insertarColaborador', async (req, res) => {
 app.post('/insertarTarea', async (req, res) => {
     const bodyJson = req.body
     const result = await insertarTarea(bodyJson['nombreTarea'], bodyJson['idProyecto'], bodyJson['idEstadoTarea'],
-        bodyJson['idColaborador'], bodyJson['storyPoints'])
+        bodyJson['idColaborador'], bodyJson['storyPoints'], bodyJson['recursosEconomicos'], bodyJson['tiempoEstimado'], bodyJson['descripcion'])
     res.send(result)
 })
 
@@ -289,6 +289,22 @@ app.put('/modificarDepartamentoPorNombreUsuario', async (req, res) => {
     }
 })
 
+// **************** Modificar Telefono por Nombre de Usuario ****************
+
+app.put('/modificarTelefonoPorNombreUsuario', async (req, res) => {
+    const { nombreUsuario, nuevoTelefono } = req.body;
+    if (!nombreUsuario || !nuevoTelefono) {
+        return res.status(400).json({ success: false, message: "Debe proporcionar el nombre de usuario y el nuevo telefono." });
+    }
+
+    try {
+        const resultado = await modificarTelefonoPorNombreUsuario(nombreUsuario, nuevoTelefono);
+        res.json(resultado);
+    } catch (error) {
+        console.error("Error al modificar el telefono por nombre de usuario:", error);
+        res.status(500).json({ success: false, message: "Ocurrió un error al modificar el telefono." });
+    }
+})
 
 app.use((err, req, res, next) => {
     console.error(err.stack)
