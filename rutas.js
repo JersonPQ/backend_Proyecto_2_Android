@@ -9,6 +9,10 @@ import {
     consultarTareas, consultarTareaById, consultarTareasByIdProyecto, 
     consultarEstadosProyectos,
     consultarEstadosColaboradores,
+    consultarInformeHorasPromedioProyectos,
+    consultarInformeHorasPromedioTodosProyectos,
+    consultarInformeGastoPromedioProyectos,
+    consultarInformeGastoPromedioTodosProyectos,
 
     insertarColaborador,
     insertarProyecto,
