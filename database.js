@@ -126,7 +126,7 @@ export async function obtenerIdEstadosColaboradoresByNombre(nombreEstado) {
 // **************** Tareas ****************
 export async function consultarTareas() {
     const query = "SELECT T.id, T.nombreTarea, T.idProyecto, P.nombreProyecto, T.idEstadoTarea, E.nombreEstado, \
-                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints, T.recursosEconomicos \
+                    T.idColaborador, C.nombre, C.primerApellido, C.segundoApellido, T.storyPoints, T.recursosEconomicos, \
                     T.tiempoEstimado, T.descripcion \
                     FROM tareas T inner join proyectos P on T.idProyecto = P.id \
                     inner join colaboradores C on T.idColaborador = C.id \

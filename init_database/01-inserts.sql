@@ -35,12 +35,14 @@ Select * FROM proyectos;
 
 -- si les da algun error aquí puede ser porque el id del proyecto no es 1 o 2
 -- insert de tareas
-INSERT INTO tareas (nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints)
-VALUES ('Tarea 3', 3, 1, 1, 1),
-('Tarea 2', 3, 2, 2, 2),
-('Tarea 3', 3, 3, 3, 3),
-('Tarea 4', 3, 1, 1, 2),
-('Tarea 5', 4, 2, 2, 3),
-('Tarea 6', 4, 3, 3, 1);
+INSERT INTO tareas (nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints, recursosEconomicos, tiempoEstimado, descripcion)
+VALUES ('Tarea 3', 3, 1, 1, 1, 100, 10, 'Descripcion 3'),
+('Tarea 2', 3, 2, 2, 2, 200, 20, 'Descripcion 2'),
+('Tarea 3', 3, 3, 3, 3, 300, 30, 'Descripcion 3'),
+('Tarea 4', 3, 1, 1, 1, 100, 10, 'Descripcion 4'),
+('Tarea 5', 3, 2, 2, 2, 200, 20, 'Descripcion 5'),
+('Tarea 6', 3, 3, 3, 3, 300, 30, 'Descripcion 6'),
+('Tarea 2', 4, 1, 1, 1, 100, 10, 'Descripcion 2'),
+('Tarea 3', 4, 2, 2, 2, 200, 20, 'Descripcion 3');
 
 Select * FROM tareas;
