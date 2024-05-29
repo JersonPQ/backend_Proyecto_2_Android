@@ -14,11 +14,11 @@ INSERT INTO departamentos (nombreDepartamento) VALUES ('Sistemas'), ('Contabilid
 
 
 -- Insert de colaboradores
-INSERT INTO colaboradores (correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador)
+INSERT INTO colaboradores (correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono)
 VALUES 
-('zQ5kP@example.com', '12345678', 'Juan', 'Perez', 'Gonzalez', '12345678', 'juanperez', 1, 1, 1),
-('Lx2rT@example.com', '12345678', 'Maria', 'Lopez', 'Garcia', '87654321', 'marialopez', 1, 2, 0),
-('bLg4Y@example.com', '12345678', 'Pedro', 'Martinez', 'Ramirez', '13579111', 'pedromartinez', 2, 1, 0);
+('zQ5kP@example.com', '12345678', 'Juan', 'Perez', 'Gonzalez', '12345678', 'juanperez', 1, 1, 1, '12345678'),
+('Lx2rT@example.com', '12345678', 'Maria', 'Lopez', 'Garcia', '87654321', 'marialopez', 1, 2, 0, '87654321'),
+('bLg4Y@example.com', '12345678', 'Pedro', 'Martinez', 'Ramirez', '13579111', 'pedromartinez', 2, 1, 0, '13579111');
 
 
 Select * FROM colaboradores;

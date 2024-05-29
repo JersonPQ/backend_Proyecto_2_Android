@@ -52,7 +52,7 @@ export async function consultarEstadosProyectos() {
 // **************** Colaboradores ****************
 export async function consultarColaboradores() {
     const query = "SELECT C.id, C.nombre, C.primerApellido, C.segundoApellido, C.cedula, C.nombreUsuario, \
-                    C.idEstadoColaborador,E.nombreEstado, C.idDepartamento, D.nombreDepartamento, C.administrador \
+                    C.idEstadoColaborador,E.nombreEstado, C.idDepartamento, D.nombreDepartamento, C.administrador, C.telefono \
                     FROM colaboradores C inner join estadosColaboradores E on C.idEstadoColaborador = E.id \
                     inner join departamentos D on C.idDepartamento = D.id;"
     const [rows] = await pool.query(query)
@@ -61,7 +61,7 @@ export async function consultarColaboradores() {
 
 export async function consultarColaboradorById(id) {
     const query = "SELECT C.id, C.correo, C.nombre, C.primerApellido, C.segundoApellido, C.cedula, C.nombreUsuario, \
-                    C.idEstadoColaborador, E.nombreEstado, C.idDepartamento, D.nombreDepartamento, C.administrador \
+                    C.idEstadoColaborador, E.nombreEstado, C.idDepartamento, D.nombreDepartamento, C.administrador, C.telefono \
                     FROM colaboradores C inner join estadosColaboradores E on C.idEstadoColaborador = E.id \
                     inner join departamentos D on C.idDepartamento = D.id \
                     WHERE C.id = ?;"
@@ -224,10 +224,10 @@ export async function consultarInformeGastoPromedioTodosProyectos() {
 
 // **************** Colaboradores ****************
 export async function insertarColaborador(correo, contrasena, nombre, primerApellido, segundoApellido, cedula,
-    nombreUsuario, idEstadoColaborador, idDepartamento, administrador) {
+    nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono) {
     const query = "INSERT INTO colaboradores (correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador)\
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-    const [rows] = await pool.query(query, [correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador])
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    const [rows] = await pool.query(query, [correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono])
     return consultarColaboradorById(rows.insertId)
 }
 
@@ -256,10 +256,10 @@ export async function insertarIdProyectoColaborador(nombreUsuario, idProyecto) {
 }
 
 // **************** Tareas ****************
-export async function insertarTarea(nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints) {
-    const query = "INSERT INTO tareas (nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints) \
-                    VALUES (?, ?, ?, ?, ?)"
-    const [rows] = await pool.query(query, [nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints])
+export async function insertarTarea(nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints, recursosEconomicos, tiempoEstimado, descripcion) {
+    const query = "INSERT INTO tareas (nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints, recursosEconomicos, tiempoEstimado, descripcion) \
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    const [rows] = await pool.query(query, [nombreTarea, idProyecto, idEstadoTarea, idColaborador, storyPoints, recursosEconomicos, tiempoEstimado, descripcion])
     return consultarTareaById(rows.insertId)
 }
 
@@ -354,5 +354,27 @@ export async function modificarDepartamentoPorNombreUsuario(nombreUsuario, nuevo
         // Manejo de errores en caso de que ocurra algún problema durante la consulta
         console.error("Error al actualizar el Departamento:", error);
         return { success: false, message: "Ocurrió un error al actualizar el Departamento." };
+    }
+}
+
+export async function modificarTelefonoPorNombreUsuario(nombreUsuario, nuevoTelefono) {
+    try {
+        // Realizar la consulta para actualizar el correo electrónico basándose en el nombre de usuario
+        const query = "UPDATE colaboradores SET telefono = ? WHERE nombreUsuario = ?";
+        await pool.query(query, [nuevoTelefono, nombreUsuario]);
+
+        // Verificar si se realizó la actualización correctamente
+        const [updatedRows] = await pool.query("SELECT * FROM colaboradores WHERE nombreUsuario = ?", [nombreUsuario]);
+        if (updatedRows.length > 0) {
+            // Se encontró el colaborador y se actualizó el correo electrónico correctamente
+            return { success: true, message: "Teléfono actualizado correctamente." };
+        } else {
+            // No se encontró el colaborador con el nombre de usuario proporcionado
+            return { success: false, message: "No se encontró el colaborador con el nombre de usuario especificado." };
+        }
+    } catch (error) {
+        // Manejo de errores en caso de que ocurra algún problema durante la consulta
+        console.error("Error al actualizar el teléfono:", error);
+        return { success: false, message: "Ocurrió un error al actualizar el teléfono." };
     }
 }

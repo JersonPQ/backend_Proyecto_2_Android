@@ -43,6 +43,7 @@ CREATE TABLE colaboradores (
     idEstadoColaborador int not null,
     idDepartamento int not null,
     administrador boolean not null,
+    telefono varchar(10),
 
     PRIMARY KEY (id),
     FOREIGN KEY (idEstadoColaborador) REFERENCES estadosColaboradores(id),
