@@ -378,3 +378,25 @@ export async function modificarTelefonoPorNombreUsuario(nombreUsuario, nuevoTele
         return { success: false, message: "Ocurrió un error al actualizar el teléfono." };
     }
 }
+
+export async function eliminarColaboradorDeProyecto(nombreUsuario) {
+    try {
+        // Realizar la consulta para actualizar el correo electrónico basándose en el nombre de usuario
+        const query = "UPDATE colaboradores SET idProyecto = NULL WHERE nombreUsuario = ?";
+        await pool.query(query, [nombreUsuario]);
+
+        // Verificar si se realizó la actualización correctamente
+        const [updatedRows] = await pool.query("SELECT * FROM colaboradores WHERE nombreUsuario = ?", [nombreUsuario]);
+        if (updatedRows.length > 0) {
+            // Se encontró el colaborador y se actualizó el correo electrónico correctamente
+            return { success: true, message: "Colaborador eliminado del proyecto correctamente." };
+        } else {
+            // No se encontró el colaborador con el nombre de usuario proporcionado
+            return { success: false, message: "No se encontró el colaborador con el nombre de usuario especificado." };
+        }
+    } catch (error) {
+        // Manejo de errores en caso de que ocurra algún problema durante la consulta
+        console.error("Error al eliminar colaborador del proyecto:", error);
+        return { success: false, message: "Ocurrió un error al eliminar colaborador del proyecto." };
+    }
+}

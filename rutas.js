@@ -306,6 +306,19 @@ app.put('/modificarTelefonoPorNombreUsuario', async (req, res) => {
     }
 })
 
+// **************** Eliminar colaborador de proyecto ****************
+
+app.delete('/eliminarColaboradorDeProyecto/:nombreUsuario', async (req, res) => {
+    const nombreUsuario = req.params.nombreUsuario;
+    try {
+        const result = await eliminarColaboradorDeProyecto(nombreUsuario);
+        return res.json(result);
+    } catch (error) {
+        console.error("Error al eliminar colaborador del proyecto:", error);
+        res.status(500).json({ success: false, message: "Ocurrió un error al eliminar colaborador del proyecto." });
+    }
+})
+
 app.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(500).send('Something broke!')
