@@ -186,6 +186,40 @@ export async function consultarComentariosByIdPublicacion(id) {
     return rows
 }
 
+// **************** Informe de seguimiento ****************
+
+export async function consultarInformeHorasPromedioProyectos() {
+    const query = "SELECT P.nombreProyecto, AVG(T.tiempoEstimado) as tiempoEstimado \
+                    FROM proyectos P \
+                    inner join tareas T on P.id = T.idProyecto \
+                    group by P.id;"
+    const [rows] = await pool.query(query)
+    return rows
+}
+
+export async function consultarInformeHorasPromedioTodosProyectos() {
+    const query = "SELECT AVG(T.tiempoEstimado) as tiempoEstimado \
+                    FROM tareas T;"
+    const [rows] = await pool.query(query)
+    return rows
+}
+
+export async function consultarInformeGastoPromedioProyectos() {
+    const query = "SELECT P.nombreProyecto, AVG(T.recursosEconomicos) as recursosEconomicos \
+                    FROM proyectos P \
+                    inner join tareas T on P.id = T.idProyecto \
+                    group by P.id;"
+    const [rows] = await pool.query(query)
+    return rows
+}
+
+export async function consultarInformeGastoPromedioTodosProyectos() {
+    const query = "SELECT AVG(T.recursosEconomicos) as recursosEconomicos \
+                    FROM tareas T;"
+    const [rows] = await pool.query(query)
+    return rows
+}
+
 // ---------------------------------- Inserciones ----------------------------------
 
 // **************** Colaboradores ****************

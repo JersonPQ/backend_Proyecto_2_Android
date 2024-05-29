@@ -144,6 +144,28 @@ app.get('/consultarComentariosByIdPublicacion', async (req, res) => {
     res.send(comentarios)
 })
 
+// **************** Informe de seguimiento ****************
+
+app.get('/consultarInformeHorasPromedioProyectos', async (req, res) => {
+    const informe = await consultarInformeHorasPromedioProyectos()
+    res.send(informe)
+})
+
+app.get('/consultarInformeHorasPromedioTodosProyectos', async (req, res) => {
+    const informe = await consultarInformeHorasPromedioTodosProyectos()
+    res.send(informe)
+})
+
+app.get('/consultarInformeGastoPromedioProyectos', async (req, res) => {
+    const informe = await consultarInformeGastoPromedioProyectos()
+    res.send(informe)
+})
+
+app.get('/consultarInformeGastoPromedioTodosProyectos', async (req, res) => {
+    const informe = await consultarInformeGastoPromedioTodosProyectos()
+    res.send(informe)
+})
+
 // ---------------------------------- Inserción ----------------------------------
 
 // **************** Proyectos ****************
