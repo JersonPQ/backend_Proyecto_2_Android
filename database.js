@@ -225,7 +225,7 @@ export async function consultarInformeGastoPromedioTodosProyectos() {
 // **************** Colaboradores ****************
 export async function insertarColaborador(correo, contrasena, nombre, primerApellido, segundoApellido, cedula,
     nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono) {
-    const query = "INSERT INTO colaboradores (correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador)\
+    const query = "INSERT INTO colaboradores (correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono)\
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     const [rows] = await pool.query(query, [correo, contrasena, nombre, primerApellido, segundoApellido, cedula, nombreUsuario, idEstadoColaborador, idDepartamento, administrador, telefono])
     return consultarColaboradorById(rows.insertId)
