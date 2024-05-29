@@ -7,17 +7,21 @@ import {
     consultarColaboradores, consultarColaboradorById, obtenerIdColaboradorByNombreUsuario, obtenerIdColaboradorByCorreo, obtenerIdColaboradorByCedula, obtenerIdColaboradorByNombreCompleto,
     consultarDepartamentos, obtenerIdDepartamentoByNombre,
     consultarTareas, consultarTareaById, consultarTareasByIdProyecto, 
+    consultarEstadosProyectos,
+    consultarEstadosColaboradores,
 
     insertarColaborador,
     insertarProyecto,
     insertarTarea,
+    insertarIdProyectoColaborador,
     validarInicioSesion,
-    consultarEstadosColaboradores,
+
     modificarCorreoPorNombreUsuario,
     modificarEstadoPorNombreUsuario,
     modificarDepartamentoPorNombreUsuario,
-    insertarIdProyectoColaborador,
-    consultarEstadosProyectos
+    modificarTelefonoPorNombreUsuario,
+
+    eliminarColaboradorDeProyecto
  } from './database.js'
 
  const app = express();
