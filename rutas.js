@@ -192,7 +192,7 @@ app.post('/insertarColaborador', async (req, res) => {
     const bodyJson = req.body
     const result = await insertarColaborador(bodyJson['correo'], bodyJson['contrasena'], bodyJson['nombre'], bodyJson['primerApellido'],
         bodyJson['segundoApellido'], bodyJson['cedula'], bodyJson['nombreUsuario'], bodyJson['idEstadoColaborador'],
-        bodyJson['idDepartamento'], bodyJson['administrador'])
+        bodyJson['idDepartamento'], bodyJson['administrador'], bodyJson['telefono'])
     res.send(result)
 })
 
