@@ -379,6 +379,34 @@ export async function modificarTelefonoPorNombreUsuario(nombreUsuario, nuevoTele
     }
 }
 
+// **************** Tareas ****************
+
+export async function modificarEstadoTareaPorId(idTarea, nuevoEstado) {
+    try {
+        
+        // Verificar si el id de la tarea existe
+        const [updatedRows] = await pool.query("SELECT id FROM tareas WHERE id = ?", [idTarea]);
+        if (updatedRows.length > 0) {
+            // Se encontró la tarea y se actualizó el estado correctamente
+            // Realizar la consulta para actualizar el estado de la tarea basándose en su ID
+            const query = "UPDATE tareas SET idEstadoTarea = ? WHERE id = ?";
+            await pool.query(query, [nuevoEstado, idTarea]);
+            return { success: true, message: "Estado de la tarea actualizado correctamente." };
+        } else {
+            // No se encontró la tarea con el ID proporcionado
+            return { success: false, message: "No se encontró la tarea con el ID especificado." };
+        }
+    } catch (error) {
+        // Manejo de errores en caso de que ocurra algún problema durante la consulta
+        console.error("Error al actualizar el estado de la tarea:", error);
+        return { success: false, message: "Ocurrió un error al actualizar el estado de la tarea." };
+    }
+}
+
+// ---------------------------------- Eliminaciones ----------------------------------
+
+// **************** Colaboradores ****************
+
 export async function eliminarColaboradorDeProyecto(nombreUsuario) {
     try {
         // Realizar la consulta para actualizar el correo electrónico basándose en el nombre de usuario
@@ -398,5 +426,29 @@ export async function eliminarColaboradorDeProyecto(nombreUsuario) {
         // Manejo de errores en caso de que ocurra algún problema durante la consulta
         console.error("Error al eliminar colaborador del proyecto:", error);
         return { success: false, message: "Ocurrió un error al eliminar colaborador del proyecto." };
+    }
+}
+
+// **************** Tareas ****************
+
+export async function eliminarTareaPorId(idTarea) {
+    try {
+        
+        // Verificar si el id de la tarea existe
+        const [deletedRows] = await pool.query("SELECT id FROM tareas WHERE id = ?", [idTarea]);
+        if (deletedRows.length === 0) {
+            // Realizar la consulta para eliminar la tarea basándose en su ID
+            const query = "DELETE FROM tareas WHERE id = ?";
+            await pool.query(query, [idTarea]);
+            // La tarea se eliminó correctamente
+            return { success: true, message: "Tarea eliminada correctamente." };
+        } else {
+            // La tarea no se eliminó correctamente
+            return { success: false, message: "No se pudo eliminar la tarea." };
+        }
+    } catch (error) {
+        // Manejo de errores en caso de que ocurra algún problema durante la consulta
+        console.error("Error al eliminar la tarea:", error);
+        return { success: false, message: "Ocurrió un error al eliminar la tarea." };
     }
 }

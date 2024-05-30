@@ -24,8 +24,10 @@ import {
     modificarEstadoPorNombreUsuario,
     modificarDepartamentoPorNombreUsuario,
     modificarTelefonoPorNombreUsuario,
+    modificarEstadoTareaPorId,
 
-    eliminarColaboradorDeProyecto
+    eliminarColaboradorDeProyecto,
+    eliminarTareaPorId
  } from './database.js'
 
  const app = express();
@@ -314,6 +316,22 @@ app.put('/modificarTelefonoPorNombreUsuario', async (req, res) => {
     }
 })
 
+// **************** Modificar Estado Tarea por Id ****************
+
+app.put('/modificarEstadoTareaPorId/:id/:nuevoEstado', async (req, res) => {
+    const { id, nuevoEstado } = req.params;
+    try {
+        const result = await modificarEstadoTareaPorId(id, nuevoEstado);
+        return res.json(result);
+    } catch (error) {
+        console.error("Error al modificar el estado de la tarea:", error);
+        res.status(500).json({ success: false, message: "Ocurrió un error al modificar el estado de la tarea." });
+    }
+})
+
+
+// ----------------------------- Eliminaciones -----------------------------
+
 // **************** Eliminar colaborador de proyecto ****************
 
 app.delete('/eliminarColaboradorDeProyecto/:nombreUsuario', async (req, res) => {
@@ -324,6 +342,19 @@ app.delete('/eliminarColaboradorDeProyecto/:nombreUsuario', async (req, res) => 
     } catch (error) {
         console.error("Error al eliminar colaborador del proyecto:", error);
         res.status(500).json({ success: false, message: "Ocurrió un error al eliminar colaborador del proyecto." });
+    }
+})
+
+// **************** Eliminar tarea por id ****************
+
+app.delete('/eliminarTareaPorId/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await eliminarTareaPorId(id);
+        return res.json(result);
+    } catch (error) {
+        console.error("Error al eliminar tarea:", error);
+        res.status(500).json({ success: false, message: "Ocurrió un error al eliminar la tarea." });
     }
 })
 
