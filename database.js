@@ -436,7 +436,7 @@ export async function eliminarTareaPorId(idTarea) {
         
         // Verificar si el id de la tarea existe
         const [deletedRows] = await pool.query("SELECT id FROM tareas WHERE id = ?", [idTarea]);
-        if (deletedRows.length === 0) {
+        if (deletedRows.length > 0) {
             // Realizar la consulta para eliminar la tarea basándose en su ID
             const query = "DELETE FROM tareas WHERE id = ?";
             await pool.query(query, [idTarea]);
